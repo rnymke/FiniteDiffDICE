@@ -89,7 +89,7 @@ zeta12      = Phi_M(1,2);
 
 % Named functional quantities
 Gross_Economic_Output = A_TFP(i)*(K^gamma)*((L(i)/1000)^(1-gamma));
-Damages = (1 - 0.00267*(T_AT^2)) * (1 + Params.ddamage); 
+Damages = (1 - (1+Params.ddamage)*0.00267*(T_AT^2));
 Net_Economic_Output = (Damages - theta1(i)*(mu^theta2))*Gross_Economic_Output;
 
 Emissions_rhs = sigma(i)*(1-mu)*Gross_Economic_Output + E_Land(i);
