@@ -4,8 +4,8 @@
 *.out
 
 #Other
-.py
-.pl
+*.py
+*.pl
 *.swp
 *.zip
 *.gms
