@@ -7,6 +7,8 @@
 .py
 .pl
 *.swp
+*.zip
+*.gms
 
 # Emacs
 *~
