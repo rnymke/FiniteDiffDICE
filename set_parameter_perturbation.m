@@ -15,10 +15,32 @@ function pertParam = set_parameter_perturbation(Params,perturbs)
     % Temperature carbon interaction
     % Column summation must equal 1
 
-    pertParam.phi11 = Params.Phi_T(1,1) * (1 + perturbs.dphi11);
-    pertParam.phi12 = Params.Phi_T(1,2) * (1 + perturbs.dphi12);
-    pertParam.phi21 = Params.Phi_T(2,1) * (1 + perturbs.dphi21);
-    pertParam.phi22 = Params.Phi_T(2,2) * (1 + perturbs.dphi22);
+    %pertParam.phi11 = Params.Phi_T(1,1) * (1 + perturbs.dphi11);
+    %pertParam.phi12 = Params.Phi_T(1,2) * (1 + perturbs.dphi12);
+    %pertParam.phi21 = Params.Phi_T(2,1) * (1 + perturbs.dphi21);
+    %pertParam.phi22 = Params.Phi_T(2,2) * (1 + perturbs.dphi22);
+
+    if perturbs.dphi11 ~= 0
+        pertParam.phi11 = Params.Phi_T(1,1) * (1 + perturbs.dphi11);
+        pertParam.phi21 = 1 - pertParam.phi11;
+    elseif perturbs.dphi21 ~= 0
+        pertParam.phi21 = Params.Phi_T(2,1) * (1 + perturbs.dphi21);
+        pertParam.phi11 = 1 - pertParam.phi21;
+    else
+        pertParam.phi11 = Params.Phi_T(1,1);
+        pertParam.phi21 = Params.Phi_T(2,1);
+    end
+
+    if perturbs.dphi12 ~= 0
+        pertParam.phi12 = Params.Phi_T(1,2) * (1 + perturbs.dphi12);
+        pertParam.phi22 = 1 - pertParam.phi12;
+    elseif perturbs.dphi22 ~= 0
+        pertParam.phi22 = Params.Phi_T(2,2) * (1 + perturbs.dphi22);
+        pertParam.phi12 = 1 - pertParam.phi22;
+    else
+        pertParam.phi12 = Params.Phi_T(1,2);
+        pertParam.phi22 = Params.Phi_T(2,2);
+    end
 
 
     % Dynamics of carbon cycle
@@ -52,7 +74,7 @@ function pertParam = set_parameter_perturbation(Params,perturbs)
     pertParam.Phi_T = [pertParam.phi11 pertParam.phi12; pertParam.phi21 pertParam.phi22];
     pertParam.Phi_M = [pertParam.zeta11 pertParam.zeta12 0; pertParam.zeta21 pertParam.zeta22 pertParam.zeta23; 0 pertParam.zeta32 pertParam.zeta33];
 
-    pertParam.Phi_M
+    pertParam.Phi_T
     for i = 1:3
         if sum(pertParam.Phi_M(:, i)) ~= 1
             disp(['Not summing to 1 at Phi_M: ', num2str(i)]);

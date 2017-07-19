@@ -7,7 +7,7 @@ clear;
 % Set perturbation, 0.1 corresponds to 10% perturbation of parameter
 % ONLY perturb one value at a time, otherwise set to 0
 
-pert.deta = 0; %todo: this is the same is xi1 or somesuch check that one is superfluous
+pert.deta = 0.1; %TODO: this is the same is xi1 or somesuch check that one is superfluous
 pert.dM_AT_Base = 0;                     
 pert.ddelta = 0;                         
 pert.dgamma = 0;                        
@@ -18,8 +18,8 @@ pert.dxi1 = 0;
 pert.dxi2 = 0;                           
 pert.dphi11 = 0;                        
 pert.dphi12 = 0;
-pert.dphi21 = 0;
-pert.dphi22 = 0;
+pert.dphi21 = 0; %TODO: jacobian dies but same info provided by phi1,1 due to colsum = 1
+pert.dphi22 = 0; %need very small number, or negative number
 pert.dzeta11 = 0;                      
 pert.dzeta21 = 0;
 pert.dzeta32 = 0;
@@ -34,8 +34,7 @@ pertNames = {'eta', 'M_AT_Base', 'delta', 'gamma', 'theta2', 'alpha', 'rho', 'xi
 pertCount = 0;
 for i = 1:length(pertList)
     if pertCount > 1
-        disp('Only one perturbation per run is allowed. Terminating.')
-        exit;
+        error('Only one perturbation per run is allowed. Terminating.')
     end
 
     if pertList(i) ~= 0
