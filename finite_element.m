@@ -7,7 +7,7 @@ clear;
 % Set perturbation, 0.1 corresponds to 10% perturbation of parameter
 % ONLY perturb one value at a time, otherwise set to 0
 
-pert.deta = 0.1;                           
+pert.deta = 0; %todo: this is the same is xi1 or somesuch check that one is superfluous
 pert.dM_AT_Base = 0;                     
 pert.ddelta = 0;                         
 pert.dgamma = 0;                        
@@ -29,6 +29,19 @@ pertList = [pert.deta; pert.dM_AT_Base; pert.ddelta; pert.dgamma; pert.dtheta2; 
                  pert.dphi21; pert.dphi22; pert.dzeta11; pert.dzeta21; pert.dzeta32; pert.ddamage];
 pertNames = {'eta', 'M_AT_Base', 'delta', 'gamma', 'theta2', 'alpha', 'rho', 'xi1', 'xi2', ...
              'phi11', 'phi12', 'phi21', 'phi22', 'zeta11', 'zeta21', 'zeta32', 'damage'};
+
+%Verification that only one value is perturbed.
+pertCount = 0;
+for i = 1:length(pertList)
+    if pertCount > 1
+        disp('Only one perturbation per run is allowed. Terminating.')
+        exit;
+    end
+
+    if pertList(i) ~= 0
+        pertCount = pertCount + 1;
+    end
+end
            
 % Get unperturbed SCC
 SCC_unperturbed = importdata('SCC')';
@@ -57,6 +70,7 @@ if pertInd ~= 0
     plot(1:length(SCC), SCC, 'x')
     plot(1:length(SCC), SCC_unperturbed);
     legend('SCC with perturbation', 'SCC unperturbed', 'Location', 'northwest')
+    %saveas(gcf, [pertNames{pertInd}, '.png']) %Save plot
 else
     disp('============================================================')
     disp('No perturbation, skipping plots')

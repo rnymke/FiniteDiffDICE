@@ -29,7 +29,7 @@ function SCC = DICE2013R_mc(perturbs)
 %
 % -------------------------------------------------------------------------
 
-addpath('~/Downloads/matlab/casadi/')
+%addpath('~/Downloads/matlab/casadi/')
 % import casadi name space
 import casadi.*
 
@@ -147,6 +147,7 @@ res = solver( 'x0' , xuv_guess,...      % solution guess
               'lbg', 0,...              % lower bound on g
               'ubg', 0);                % upper bound on g
 t_NLP = toc;
+
 
 % print computation times to screen
 display('============================================================')
